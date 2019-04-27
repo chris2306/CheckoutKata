@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace CheckoutKata
 {
@@ -22,14 +23,15 @@ namespace CheckoutKata
         public int GetTotalPrice()
         {
             int result = 0;
-            foreach (var item in _items)
+            var groupedItems = _items.GroupBy(x => x);
+            foreach (var items in groupedItems)
             {
-                var itemPrice = _dataRepository.GetItemPrice(item);
+                var itemPrice = _dataRepository.GetItemPrice(items.Key);
                 if(!itemPrice.HasValue)
                 {
                     throw new ArgumentException();
                 }
-                result += itemPrice.Value;
+                result += itemPrice.Value * items.Count();
             }
             return result;
         }
