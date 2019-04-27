@@ -45,6 +45,7 @@ namespace Tests
         /// <summary>
         /// Tests passing in an invalid SKU into the scan function
         /// </summary>
+        [Test]
         public void ScanInvalidItem()
         {
             //arrange
