@@ -25,7 +25,11 @@ namespace CheckoutKata
             foreach (var item in _items)
             {
                 var itemPrice = _dataRepository.GetItemPrice(item);
-                result += itemPrice;
+                if(!itemPrice.HasValue)
+                {
+                    throw new ArgumentException();
+                }
+                result += itemPrice.Value;
             }
             return result;
         }

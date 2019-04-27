@@ -6,6 +6,6 @@ namespace CheckoutKata
 {
     public interface IDataRepository
     {
-        int GetItemPrice(string item);
+        int? GetItemPrice(string item);
     }
 }
