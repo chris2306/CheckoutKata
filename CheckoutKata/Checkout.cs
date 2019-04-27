@@ -22,6 +22,11 @@ namespace CheckoutKata
         public int GetTotalPrice()
         {
             int result = 0;
+            foreach (var item in _items)
+            {
+                var itemPrice = _dataRepository.GetItemPrice(item);
+                result += itemPrice;
+            }
             return result;
         }
 
@@ -32,6 +37,7 @@ namespace CheckoutKata
                 //log also
                 throw new ArgumentNullException();
             }
+            _items.Add(item);
         }
     }
 }
