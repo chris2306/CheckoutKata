@@ -21,7 +21,8 @@ namespace CheckoutKata
 
         public int GetTotalPrice()
         {
-            throw new NotImplementedException();
+            int result = 0;
+            return result;
         }
 
         public void Scan(string item)
@@ -31,7 +32,6 @@ namespace CheckoutKata
                 //log also
                 throw new ArgumentNullException();
             }
-            throw new NotImplementedException();
         }
     }
 }
