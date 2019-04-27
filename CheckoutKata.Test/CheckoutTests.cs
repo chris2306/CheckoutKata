@@ -50,8 +50,10 @@ namespace Tests
         {
             //arrange
             var checkout = new Checkout(_dataRepository);
+            //act
+            checkout.Scan("E");
             //assert
-            Assert.Throws<ArgumentException>(() => checkout.Scan("E"));
+            Assert.Throws<ArgumentException>(() => checkout.GetTotalPrice());
         }
 
         /// <summary>
