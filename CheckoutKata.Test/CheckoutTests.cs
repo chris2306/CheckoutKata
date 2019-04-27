@@ -1,4 +1,5 @@
 using CheckoutKata;
+using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -7,9 +8,17 @@ namespace Tests
 {
     public class Tests
     {
+        private IDataRepository _dataRepository;
+
         [SetUp]
         public void Setup()
         {
+            var service = new Mock<IDataRepository>();
+            service.Setup(m => m.GetItemPrice("A")).Returns(() => 50);
+            service.Setup(m => m.GetItemPrice("B")).Returns(() => 30);
+            service.Setup(m => m.GetItemPrice("C")).Returns(() => 20);
+            service.Setup(m => m.GetItemPrice("D")).Returns(() => 15);
+            _dataRepository = service.Object;
         }
 
         /// <summary>
@@ -25,7 +34,7 @@ namespace Tests
         public void Scan1ItemTotal(string item, int expected)
         {
             //arrange
-            var checkout = new Checkout();
+            var checkout = new Checkout(_dataRepository);
             //act
             checkout.Scan(item);
             var price = checkout.GetTotalPrice();
@@ -39,7 +48,7 @@ namespace Tests
         public void ScanInvalidItem()
         {
             //arrange
-            var checkout = new Checkout();
+            var checkout = new Checkout(_dataRepository);
             //assert
             Assert.Throws<ArgumentException>(() => checkout.Scan("E"));
         }
@@ -51,7 +60,7 @@ namespace Tests
         public void ScanNullItem()
         {
             //arrange
-            var checkout = new Checkout();
+            var checkout = new Checkout(_dataRepository);
             //assert
             Assert.Throws<ArgumentNullException>(() => checkout.Scan(null));
         }
@@ -70,7 +79,7 @@ namespace Tests
         public void ScanMultipleItems_WithoutSpecialPrice(string[] items, int expected)
         {
             //arrange
-            var checkout = new Checkout();
+            var checkout = new Checkout(_dataRepository);
             //act
             foreach (var item in items)
             {
