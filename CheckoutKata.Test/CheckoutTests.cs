@@ -89,5 +89,19 @@ namespace Tests
             //assert
             Assert.AreEqual(expected, totalPrice);
         }
+
+        /// <summary>
+        /// Test to get price with 0 items scanned
+        /// </summary>
+        [Test]
+        public void GetTotalPrice_NoItems()
+        {
+            //arrange
+            var checkout = new Checkout(_dataRepository);
+            //act
+            var price = checkout.GetTotalPrice();
+            //assert 
+            Assert.AreEqual(0, price);
+        }
     }
 }
