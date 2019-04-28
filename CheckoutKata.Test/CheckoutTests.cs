@@ -114,7 +114,7 @@ namespace Tests
         /// </summary>
         /// <param name="items">The items to scan</param>
         /// <param name="expected">expected total price</param>
-        [TestCase]
+        [Test]
         [TestCase(new string[] { "A", "A", "A" }, 130)]
         [TestCase(new string[] { "B", "B" }, 45)]
         [TestCase(new string[] { "A", "B", "A", "B", "A" }, 175)]
