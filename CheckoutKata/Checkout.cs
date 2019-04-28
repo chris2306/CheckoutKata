@@ -32,14 +32,24 @@ namespace CheckoutKata
             return result;
         }
 
-        public int GetItemsPrice(string item, int count)
+        private int GetItemsPrice(string item, int count)
         {
+            int result = 0;
+            int remainingCount = count;
+            var specialRule = _dataRepository.GetItemSpecialPrice(item, count);
+            if (specialRule != null)
+            {
+                var numberOfSpecial = count / specialRule.Count;
+                result += numberOfSpecial * specialRule.Price;
+                remainingCount -= numberOfSpecial * specialRule.Count;
+            }
             var itemPrice = _dataRepository.GetItemPrice(item);
             if (!itemPrice.HasValue)
             {
                 throw new ArgumentException();
             }
-            return itemPrice.Value * count;
+            result += remainingCount * itemPrice.Value;
+            return result;
         }
 
         public void Scan(string item)
