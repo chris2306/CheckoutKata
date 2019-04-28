@@ -23,17 +23,23 @@ namespace CheckoutKata
         public int GetTotalPrice()
         {
             int result = 0;
+            //Group the items so we only need to get the price once for each item type
             var groupedItems = _items.GroupBy(x => x);
             foreach (var items in groupedItems)
             {
-                var itemPrice = _dataRepository.GetItemPrice(items.Key);
-                if(!itemPrice.HasValue)
-                {
-                    throw new ArgumentException();
-                }
-                result += itemPrice.Value * items.Count();
+                result += GetItemsPrice(items.Key, items.Count());
             }
             return result;
+        }
+
+        public int GetItemsPrice(string item, int count)
+        {
+            var itemPrice = _dataRepository.GetItemPrice(item);
+            if (!itemPrice.HasValue)
+            {
+                throw new ArgumentException();
+            }
+            return itemPrice.Value * count;
         }
 
         public void Scan(string item)
