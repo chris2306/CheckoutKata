@@ -18,6 +18,10 @@ namespace Tests
             service.Setup(m => m.GetItemPrice("B")).Returns(() => 30);
             service.Setup(m => m.GetItemPrice("C")).Returns(() => 20);
             service.Setup(m => m.GetItemPrice("D")).Returns(() => 15);
+
+            //Setup the mock of the special prices
+            service.Setup(m => m.GetItemSpecialPrice("A", It.IsInRange<int>(3, int.MaxValue, Moq.Range.Inclusive))).Returns(new SpecialPrice("A", 3, 130));
+            service.Setup(m => m.GetItemSpecialPrice("B", It.IsInRange<int>(2, int.MaxValue, Moq.Range.Inclusive))).Returns(new SpecialPrice("B", 2, 45));
             _dataRepository = service.Object;
         }
 
