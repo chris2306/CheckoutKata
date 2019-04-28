@@ -43,12 +43,16 @@ namespace CheckoutKata
                 result += numberOfSpecial * specialRule.Price;
                 remainingCount -= numberOfSpecial * specialRule.Count;
             }
-            var itemPrice = _dataRepository.GetItemPrice(item);
-            if (!itemPrice.HasValue)
+
+            if (remainingCount > 0)
             {
-                throw new ArgumentException();
+                var itemPrice = _dataRepository.GetItemPrice(item);
+                if (!itemPrice.HasValue)
+                {
+                    throw new ArgumentException();
+                }
+                result += remainingCount * itemPrice.Value;
             }
-            result += remainingCount * itemPrice.Value;
             return result;
         }
 
