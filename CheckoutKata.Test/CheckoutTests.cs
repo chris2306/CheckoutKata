@@ -106,5 +106,33 @@ namespace Tests
             //assert 
             Assert.AreEqual(0, price);
         }
+
+        /// <summary>
+        /// Scan multiple items that include special price deals.
+        /// This could actually be done in the same test ScanMultipleItems_WithoutSpecialPrice but with different items passed.  
+        /// However I have it seperate so the test results are clearer.
+        /// </summary>
+        /// <param name="items">The items to scan</param>
+        /// <param name="expected">expected total price</param>
+        [TestCase]
+        [TestCase(new string[] { "A", "A", "A" }, 130)]
+        [TestCase(new string[] { "B", "B" }, 45)]
+        [TestCase(new string[] { "A", "B", "A", "B", "A" }, 175)]
+        [TestCase(new string[] { "A", "C", "A", "A" }, 150)]
+        [TestCase(new string[] { "A", "A", "A", "A" }, 180)]
+        [TestCase(new string[] { "A", "A", "A", "A", "A", "A" }, 260)]
+        public void ScanMultipleItems_WithSpecialPrice(string[] items, int expected)
+        {
+            //arrange
+            var checkout = new Checkout(_dataRepository);
+            //act
+            foreach (var item in items)
+            {
+                checkout.Scan(item);
+            }
+            var totalPrice = checkout.GetTotalPrice();
+            //assert
+            Assert.AreEqual(expected, totalPrice);
+        }
     }
 }
